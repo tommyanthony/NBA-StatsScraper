@@ -1,3 +1,4 @@
+# This class contains the parameters for the backend API.
 TRUE = 1
 FALSE = 0
 

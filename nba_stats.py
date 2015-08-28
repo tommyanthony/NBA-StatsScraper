@@ -3,6 +3,10 @@ import parameters as params
 
 api = new_api("http://stats.nba.com/stats/")
 
+"""
+This file defines the parts of stats.nba.com's API that is accessible. To
+access the API import the api object from this file
+"""
 
 @api.endpoint()
 class PlayerID(Endpoint):

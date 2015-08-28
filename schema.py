@@ -3,6 +3,12 @@ from sqlalchemy import (Column, ForeignKey, Integer, DECIMAL, String, BOOLEAN,
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import sessionmaker
 
+"""
+This class defines the schema for the database that the JSON data will be
+dumped into. The type of SQL database, database-name, database-connector, and
+host are all defined in this file. The create_tables will create the tables for
+the given database name.
+"""
 
 Base = declarative_base()
 
@@ -102,9 +108,10 @@ class Split(Base):
     second = Column(Integer, ForeignKey('splitline.id'))
 
 NAME = 'test'
+SQL_TYPE = 'mysql'
 DRIVER = 'pymysql'
 HOST = 'localhost'
-URL = 'mysql+%s://root@%s/%s' % (DRIVER, HOST, NAME)
+URL = '%s+%s://root@%s/%s' % (SQL_TYPE, DRIVER, HOST, NAME)
 
 
 def create_db_session():

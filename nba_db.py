@@ -4,6 +4,10 @@ from functools import reduce
 import operator
 
 class Filter(object):
+    """
+    A class that builds up a filter by applying the logical and operator to
+    each SQLAlchemy condition
+    """
     def __init__(self):
         self.filters = []
 
@@ -14,6 +18,9 @@ class Filter(object):
         return reduce(operator.and_, self.filters)
 
 class NBADB(object):
+    """
+    This class handles the direct interactions with the database
+    """
     def __init__(self):
         self.session = schema.create_db_session()
 

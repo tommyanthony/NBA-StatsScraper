@@ -1,0 +1,8 @@
+# NBA Stats Downloader
+This tool downloads data from stats.nba.com and stores it in a SQL database.  The default is MySQL, but can be changed in schema.py as the code us SQLAlchemy so any SQL database supported by SQLAlchemy should be able to be used.   
+
+## About
+stats.nba.com uses AngularJS for it's websites, and the backend exposes JSON ednpoints that the data is loaded from.  This takes the JSON data and dumps it into a SQL database.
+
+## What's supported?
+Currently all the data it draws is about players full-length per-game season stats and their pre-post trade stats splits. Support for season totals is planned.
