@@ -88,9 +88,14 @@ The code below handles the command line interface for importing the data
 """
 import click
 
-@click.command()
+@click.command(help="""
+Example usage:\n
+python json_to_db.py --season 2013-14\n
+python json_to_db.py --all
+""")
 @click.option('--season', default=parameters.CURRENT_SEASON,
-              help='Season of data to download, ex. 2014-15, 2012-13')
+              help="Season of data to download"
+                   "example values: '2014-15', '2012-13'")
 @click.option('--current', 'current_season', flag_value=parameters.TRUE,
               default=True, help='Only import the currently active players')
 @click.option('--all', 'current_season', flag_value=parameters.FALSE,
