@@ -123,3 +123,6 @@ def create_db_session():
 
 def create_tables():
     Base.metadata.create_all(create_engine(URL))
+
+if __name__ == "__main__":
+    create_tables()
