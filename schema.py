@@ -111,18 +111,49 @@ NAME = 'test'
 SQL_TYPE = 'mysql'
 DRIVER = 'pymysql'
 HOST = 'localhost'
-URL = '%s+%s://root@%s/%s' % (SQL_TYPE, DRIVER, HOST, NAME)
+USER = 'root'
 
 
-def create_db_session():
-    engine = create_engine(URL)
+def create_db_session(db_url=None):
+    if db_url is None:
+        db_url = generate_url()
+    engine = create_engine(db_url)
     Base.metadata.bind = engine
     DBSession = sessionmaker(bind=engine)
     return DBSession()
 
+def generate_url(db_name=NAME, sql_type=SQL_TYPE, driver=DRIVER, host=HOST,
+                 user=USER, password=None):
+    if password:
+        return '%s+%s://%s:%s@%s/%s' % (sql_type, driver, user, password,
+                                        host, db_name)
+    else:
+        return '%s+%s://%s@%s/%s' % (sql_type, driver, user, host, db_name)
 
-def create_tables():
-    Base.metadata.create_all(create_engine(URL))
+def create_tables(db_url=None):
+    if db_url is None:
+        db_url = generate_url()
+    Base.metadata.create_all(create_engine(db_url))
+
+"""
+The code belows handles the command line interface (CLI) for creating the
+tables.
+"""
+import click
+
+
+@click.command(help='Options change the fields used '
+                    'by SQLAlchemy to connect to the database')
+@click.option('--db_name', default=NAME, help='Database name')
+@click.option('--sql_type', default=SQL_TYPE, help='SQL Type (ex. MySQL)')
+@click.option('--driver', default=DRIVER, help='Driver used to connect')
+@click.option('--host', default=HOST, help='DB host')
+@click.option('--user', default=USER, help='DB user')
+@click.option('--password', default=None, help='DB password')
+def setup_db(db_name, sql_type, driver, host, user, password):
+    url = generate_url(db_name, sql_type, driver, host, user, password)
+    create_tables(url)
+
 
 if __name__ == "__main__":
-    create_tables()
+    setup_db()

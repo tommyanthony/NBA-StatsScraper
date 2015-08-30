@@ -71,7 +71,6 @@ class Endpoint(object):
                 raise InvalidParameterException(param, self.__endpoint__)
         params.update(kwargs)
         result = self.api.make_request(self.__endpoint__, params)
-        print(result.url)
         return parse_json_request(result)
     __call__ = get
 
