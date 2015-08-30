@@ -8,6 +8,11 @@ stats.nba.com uses AngularJS for it's websites, and the backend exposes JSON edn
 Currently all the data it draws is about players full-length per-game season stats and their pre-post trade stats splits. Support for season totals is planned.  If you want some other data, request it and I'll add it.
 
 ## How to use
+The requirements can be installed via pip:
+```shell
+pip install -r requirements.txt
+```
+
 The database is set up by first executing schema.py, and then the data is imported using json_to_db.py
 
 schema.py defaults to MySQL running on the localmachine with a database name of test.
@@ -58,3 +63,4 @@ Options:
   --all          Import all players from NBA history
   --help         Show this message and exit.
  ```
+
