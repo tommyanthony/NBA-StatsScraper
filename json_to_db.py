@@ -6,6 +6,7 @@ from nba_db import NBADB
 from collections import defaultdict
 
 
+
 def create(season, currentSeason=parameters.TRUE):
     import_teams()
     db = NBADB()
@@ -22,7 +23,7 @@ def load_all_players(season, db, currentSeason):
         career_averages, pre_post_trade = load_career_averages(nba_id, db)
         for season in career_averages:
             db.add_season(season, player_obj.id)
-            # TODO chance add_season, add in pre_post_trade
+        # TODO change add_season, add in pre_post_trade
         if pre_post_trade:
             num_trades = len(pre_post_trade) - 1
             for trade in range(num_trades):
@@ -81,5 +82,21 @@ def extract_career_averages(json_averages, db):
             career_averages.append(season)
     return career_averages, pre_post_trade
 
+
+"""
+The code below handles the command line interface for importing the data
+"""
+import click
+
+@click.command()
+@click.option('--season', default=parameters.CURRENT_SEASON,
+              help='Season of data to download, ex. 2014-15, 2012-13')
+@click.option('--current', 'current_season', flag_value=parameters.TRUE,
+              default=True, help='Only import the currently active players')
+@click.option('--all', 'current_season', flag_value=parameters.FALSE,
+              help='Import all players from NBA history')
+def cli(season, current_season):
+    create(season, current_season)
+
 if __name__ == "__main__":
-    load_all_players(parameters.CURRENT_SEASON)
+    cli()
